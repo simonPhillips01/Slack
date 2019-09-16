@@ -1,13 +1,36 @@
 import React from 'react';
+import firebase from '../../firebase';
 import { Grid, Form, Segment, Button, Header, Message, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 class Register extends React.Component {
-    state = {}
+    state = {
+        username: '',
+        email: '',
+        password: '',
+        passwordConfirmation: ''
+    }
 
-    handleChange = () => {}
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    }
     
+    handleSubmit = event => {
+        event.preventDefault();
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(createdUser => {
+                console.log(createdUser);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     render() {
+        const { username, email, password, passwordConfirmation } = this.state;
+
         return (
             <Grid textAlign="center" verticalAlign="middle" className="app">
                 <Grid.Column style={{ maxWidth: 450 }}>
@@ -16,12 +39,12 @@ class Register extends React.Component {
                             Register for DevChat
                         </Icon>
                     </Header>
-                    <Form size="large">
+                    <Form onSubmit={this.handleSubmit} size="large">
                         <Segment stacked>
-                            <Form.Input field name = "username" icon="user" iconPosition="left" placeholder="Username" onChange={this.handleChange} type="text" />
-                            <Form.Input field name = "email" icon="mail" iconPosition="left" placeholder="Email Address" onChange={this.handleChange} type="email" />
-                            <Form.Input field name = "password" icon="lock" iconPosition="left" placeholder="Password" onChange={this.handleChange} type="password" />
-                            <Form.Input field name = "passwordConfirmation" icon="repeat" iconPosition="left" placeholder="Password Confirmation" onChange={this.handleChange} type="password" />
+                            <Form.Input field name = "username" icon="user" iconPosition="left" placeholder="Username" onChange={this.handleChange} value={username} type="text" />
+                            <Form.Input field name = "email" icon="mail" iconPosition="left" placeholder="Email Address" onChange={this.handleChange} value={email} type="email" />
+                            <Form.Input field name = "password" icon="lock" iconPosition="left" placeholder="Password" onChange={this.handleChange} value={password} type="password" />
+                            <Form.Input field name = "passwordConfirmation" icon="repeat" iconPosition="left" placeholder="Password Confirmation" onChange={this.handleChange} value={passwordConfirmation} type="password" />
                             <Button color="orange" fluid size="large">Submit</Button>
                         </Segment>
                     </Form>
