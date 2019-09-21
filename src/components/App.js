@@ -33,6 +33,6 @@ const App = ({ currentUser, currentChannel }) => (
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
   currentChannel: state.channel.currentChannel
-})
+});
 
 export default connect(mapStateToProps)(App);
