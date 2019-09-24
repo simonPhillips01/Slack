@@ -15,7 +15,7 @@ class ColorPanel extends React.Component {
                 <Divider />
                 <Button icon="add" size="small" color="blue" />
             </Sidebar>
-        )
+        );
     }
 }
 
