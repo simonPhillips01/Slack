@@ -32,6 +32,14 @@ class ColorPanel extends React.Component {
       })
   }
 
+  componentWillUnmount() {
+    this.removeListener();
+  }
+
+  removeListener = () => {
+    this.state.usersRef.child(`${this.state.user.uid}/colors`).off();
+  }
+
   handleChangePrimary = color => this.setState({ primary: color.hex });
 
   handleChangeSecondary = color => this.setState({ secondary: color.hex });
